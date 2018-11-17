@@ -1,0 +1,8 @@
+{
+    "TableName": "recipes",
+    "Key": {
+        "name": {
+            "S": "$input.path('$.name')"
+        }
+    }
+}
