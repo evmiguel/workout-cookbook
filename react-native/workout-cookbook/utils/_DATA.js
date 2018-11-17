@@ -15,7 +15,13 @@ function addRecipe(recipe) {
 	    'Content-Type': 'application/json',
 	  },
 	  body: JSON.stringify(recipe)
-	}).then(() => { return recipe })
+	}).then((data) => {
+		return recipe
+	})
+	.catch((err) => {
+		console.log(err)
+		return err
+	})
 }
 
 export function _getRecipes() {

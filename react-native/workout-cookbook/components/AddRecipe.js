@@ -10,21 +10,48 @@ class AddRecipe extends Component {
 		instructions: [
 			{
 				step: '',
-				length: ''
+				time: ''
 			},
 			{
 				step: '',
-				length: ''
+				time: ''
 			},
 			{
 				step: '',
-				length: ''
+				time: ''
 			}
 		]
 	}
 
 	submit = () => {
-		console.log(this.state)
+		let recipe = {...this.state}
+		let totalTime = recipe.instructions.map(i => i.time).map(i => parseInt(i)).reduce((acc, val) => acc+val)
+		recipe['total_time'] = totalTime.toString()
+
+		this.props.dispatch(handleAddRecipe(recipe)).then(() => {
+			this.props.navigation.navigate('Recipe', { name: recipe.name })
+			this.resetState()
+		})
+	}
+
+	resetState = () => {
+		this.setState({
+			name: '',
+			instructions: [
+				{
+					step: '',
+					time: ''
+				},
+				{
+					step: '',
+					time: ''
+				},
+				{
+					step: '',
+					time: ''
+				}
+			]
+		})
 	}
 
 	handleInput = function(text, type){
@@ -40,7 +67,7 @@ class AddRecipe extends Component {
 			let instructionState = Object.keys(copyInstructions).filter(i => i === itemNum.toString()).map(i => copyInstructions[i]).pop()
 			copyInstructions[itemNum] = {
 				...instructionState,
-				[instructionKey]: isNaN(text) ? text : parseInt(text)
+				[instructionKey]: isNaN(text) ? text : parseInt(text).toString()
 			}
 			this.setState({
 				instructions: copyInstructions
@@ -66,8 +93,8 @@ class AddRecipe extends Component {
 					<TextInput
 						style={[styles.instructionTimeInput, styles.input]}
 						placeholder="# min"
-						onChangeText={(text) => this.handleInput(text, "instructions", 0, "length")}
-						value={("0" in this.state.instructions) ? this.state.instructions[0].length.toString() : '' }/>
+						onChangeText={(text) => this.handleInput(text, "instructions", 0, "time")}
+						value={("0" in this.state.instructions) ? this.state.instructions[0].time.toString() : '' }/>
 				</View>
 				<View style={styles.instructionInputContainer}>
 					<TextInput
@@ -78,8 +105,8 @@ class AddRecipe extends Component {
 					<TextInput
 						style={[styles.instructionTimeInput, styles.input]}
 						placeholder="# min"
-						onChangeText={(text) => this.handleInput(text, "instructions", 1, "length")}
-						value={("1" in this.state.instructions) ? this.state.instructions[1].length.toString() : '' }/>
+						onChangeText={(text) => this.handleInput(text, "instructions", 1, "time")}
+						value={("1" in this.state.instructions) ? this.state.instructions[1].time.toString() : '' }/>
 				</View>
 				<View style={styles.instructionInputContainer}>
 					<TextInput
@@ -90,8 +117,8 @@ class AddRecipe extends Component {
 					<TextInput
 						style={[styles.instructionTimeInput, styles.input]}
 						placeholder="# min"
-						onChangeText={(text) => this.handleInput(text, "instructions", 2, "length")}
-						value={("2" in this.state.instructions) ? this.state.instructions[2].length.toString() : '' }/>
+						onChangeText={(text) => this.handleInput(text, "instructions", 2, "time")}
+						value={("2" in this.state.instructions) ? this.state.instructions[2].time.toString() : '' }/>
 				</View>
 				<View style={styles.submitContainer}>
 					<TextButton
