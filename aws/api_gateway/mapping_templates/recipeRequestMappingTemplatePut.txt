@@ -1,0 +1,27 @@
+{
+    "TableName": "recipes",
+    "Item": {
+        "name": {
+            "S": "$input.path('$.name')"
+        },
+        "total_time": {
+            "N": "$input.path('$.total_time')"
+        },
+        "instructions": {
+            "L" : [
+                 #foreach($elem in $input.path('$.instructions'))
+                 {
+                    "M" : {
+                        "step" : {
+                            "S": "$elem.step"
+                        },
+                        "time" : {
+                            "N": "$elem.time"
+                        }
+                    }
+                 } #if($foreach.hasNext),#end
+                 #end
+            ]
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "RecipesInputModel",
+  "type": "object",
+  "properties": {
+    "name": {
+        "type" : "string"
+    },
+    "total_time": {
+        "type": "number"
+    },
+    "instructions" : {
+        "type" : "array",
+        "items" : {
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type" : "string"
+                },
+                "time" : {
+                    "type" : "number"
+                }
+            }
+        }
+    }
+  }
+}
