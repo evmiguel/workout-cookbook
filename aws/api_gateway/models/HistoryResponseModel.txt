@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "HistoryResponseModel",
+  "type": "object",
+  "properties": {
+    "history": {
+        "type" : "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "datetime": {
+                    "type": "string"
+                },
+                "length": {
+                    "type": "number"
+                },
+                "workout": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+  }
+}

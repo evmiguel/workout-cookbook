@@ -1,0 +1,14 @@
+#set($inputRoot = $input.path('$'))
+
+{
+"history"  :
+    [
+    #foreach($elem in $inputRoot.Items)
+        {
+          "datetime": "$elem.datetime.S",
+          "workout": "$elem.workout.S",
+          "length": "$elem.length.N"
+        }#if($foreach.hasNext),#end
+    #end
+    ]
+}

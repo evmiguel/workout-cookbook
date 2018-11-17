@@ -1,0 +1,14 @@
+{
+    "TableName": "history",
+    "Item": {
+        "datetime": {
+            "S": "$input.path('$.datetime')"
+        },
+        "length": {
+            "N": "$input.path('$.length')"
+        },
+        "workout": {
+            "S": "$input.path('$.workout')"
+        }
+    }
+}

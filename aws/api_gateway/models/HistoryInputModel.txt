@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "HistoryInputModel",
+  "type": "object",
+  "properties": {
+    "datetime": {
+        "type" : "string"
+    },
+    "length": {
+        "type": "number"
+    },
+    "workout": {
+        "type": "string"
+    }
+  }
+}
