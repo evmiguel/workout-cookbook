@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 
 class Recipe extends Component {
 	static navigationOptions = ({ navigation }) => {
@@ -13,10 +14,15 @@ class Recipe extends Component {
   	}
 
 	render() {
-		const { name, onPress } = this.props
 		return (
 			<View></View>
 		)
 	}
 }
-export default Recipe
+
+function mapStateToProps({recipes}, {navigation}) {
+	return {
+		recipe: Object.keys(recipes).filter(r => recipes[r].name === navigation.state.params.name).map(i => recipes[i]).pop()
+	}
+}
+export default connect(mapStateToProps)(Recipe)
