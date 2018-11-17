@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import TextButton from './TextButton'
 
 class Recipe extends Component {
 	static navigationOptions = ({ navigation }) => {
@@ -16,10 +15,7 @@ class Recipe extends Component {
 	render() {
 		const { name, onPress } = this.props
 		return (
-			<TextButton
-				children={name}
-				onPress={onPress}
-			/>
+			<View></View>
 		)
 	}
 }
