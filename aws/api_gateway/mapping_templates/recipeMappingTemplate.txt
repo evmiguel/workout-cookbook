@@ -1,0 +1,21 @@
+#set($inputRoot = $input.path('$'))
+
+{
+"workouts"  :
+    [
+    #foreach($elem in $inputRoot.Items)
+        {
+          "name" : "$elem.name.S",
+          "total_time": "$elem.total_time.N",
+          "instructions" : [
+            #foreach($l in $elem.instructions.L)
+            {
+              "step" : "$l.M.step.S",
+              "time" : "$l.M.time.N"
+            }#if($foreach.hasNext),#end
+            #end
+          ]
+        }#if($foreach.hasNext),#end
+    #end
+    ]
+}
