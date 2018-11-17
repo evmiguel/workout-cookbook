@@ -8,12 +8,15 @@ class Recipes extends Component {
 	componentDidMount() {
 		this.props.dispatch(handleInitialData())
 	}
+
 	render() {
 		const { recipes } = this.props
 		return(
 			<View style={styles.container}>
 				{
-					Object.keys(recipes).map(r => <Recipe key={recipes[r].name} name={recipes[r].name} />)
+					Object.keys(recipes).map(r => <Recipe key={recipes[r].name}
+														name={recipes[r].name}
+														onPress={() => this.props.navigation.navigate('Recipe', { name: recipes[r].name })} />)
 				}
 			</View>
 		)
