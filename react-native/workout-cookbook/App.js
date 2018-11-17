@@ -6,7 +6,9 @@ import reducers from './reducers'
 import middleware from './middleware'
 import Recipes from './components/Recipes'
 import Recipe from './components/Recipe'
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import AddRecipe from './components/AddRecipe'
+import { MaterialCommunityIcons} from '@expo/vector-icons'
+import { createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
 const RecipeNavigator = createStackNavigator({
   Recipes: {
@@ -20,7 +22,31 @@ const RecipeNavigator = createStackNavigator({
   }
 })
 
-const AppContainer = createAppContainer(RecipeNavigator);
+const AddRecipeNavigator = createStackNavigator({
+  AddRecipe: {
+    screen: AddRecipe
+  }
+})
+
+
+const MainNavigator = createBottomTabNavigator({
+  DeckView: {
+    screen: RecipeNavigator,
+    navigationOptions: {
+      tabBarLabel: 'Recipes',
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards' size={30} color={tintColor} />
+    }
+  },
+  AddRecipeView: {
+    screen: AddRecipeNavigator,
+    navigationOptions: {
+      tabBarLabel: 'Add Recipe',
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='plus-box' size={30} color={tintColor} />
+    }
+  }
+})
+
+const AppContainer = createAppContainer(MainNavigator);
 
 export default class App extends React.Component {
   render() {
