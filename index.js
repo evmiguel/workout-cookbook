@@ -6,6 +6,8 @@ const https = require('https');
 const skillBuilder = Alexa.SkillBuilders.custom();
 var workoutOutput;
 var timeOutput;
+var workoutDescription;
+var jsonIn;
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
@@ -58,17 +60,6 @@ const ExerciseIntentHandler = {
 
     async handle(handlerInput) {
         const data = await this.getData().then(d => { return d } )
-
-        //console.log(data.workouts[0]);
-        
-        var i; 
-        for (i = 0; i < data.workouts.length; i++)  
-        { 
-            //console.log(i); 
-            //console.log(data.workouts[i].name); 
-            //console.log(data.workouts[i].time);
-        } 
-
         const request = handlerInput.requestEnvelope.request;
 
         const attributesManager = handlerInput.attributesManager;
@@ -81,9 +72,6 @@ const ExerciseIntentHandler = {
         }
         
         const sessionAttributes = attributesManager.getSessionAttributes();
-        //const attraction = randomArrayElement(getAttractionsBytime(time));
-        //sessionAttributes.attraction = attraction.name;
-        //const speechOutput = `Try out ${attraction.name}. ${attraction.description}. Have fun!`;
         const speechOutput = `Have fun!`;
         console.log('here');
 
@@ -119,8 +107,6 @@ const ExerciseListIntentHandler = {
     async handle(handlerInput) {
         const data = await this.getData().then(d => { return d } )
 
-        //console.log(data.workouts[0]);
-        
         let str_output = 'Your cookbooks are ';
         var i; 
         for (let i = 0; i < data.workouts.length; i++)  
@@ -128,6 +114,7 @@ const ExerciseListIntentHandler = {
             if (i <  (data.workouts.length - 1)){
                 str_output = str_output + ' ' + data.workouts[i].name + ',';
             }
+            
             else{
                 str_output = str_output + ' and ' + data.workouts[i].name;
             }
@@ -137,6 +124,7 @@ const ExerciseListIntentHandler = {
             console.log(data.workouts[i].time);
             
         } 
+        jsonIn = data;
         str_output = str_output + '. Please choose a workout.';
         
         console.log(str_output); 
@@ -146,9 +134,6 @@ const ExerciseListIntentHandler = {
         const responseBuilder = handlerInput.responseBuilder;
         
         const sessionAttributes = attributesManager.getSessionAttributes();
-        //const attraction = randomArrayElement(getAttractionsBytime(time));
-        //sessionAttributes.attraction = attraction.name;
-        //const speechOutput = `Try out ${attraction.name}. ${attraction.description}. Have fun!`;
         const speechOutput = str_output;
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
@@ -161,7 +146,7 @@ const cardioResponseHandler = {
     },
 
     async handle(handlerInput) {
-        workoutOutput = 'cardio';
+        workoutOutput = 'Cardio';
         let str_output = 'How long would you like to do cardio for?';
         
         const request = handlerInput.requestEnvelope.request;
@@ -182,7 +167,7 @@ const strengthResponseHandler = {
     },
 
     async handle(handlerInput) {
-        workoutOutput = 'strength';
+        workoutOutput = 'Strength';
         let str_output = 'How long would you like to do strength for?';
         
         const request = handlerInput.requestEnvelope.request;
@@ -204,7 +189,7 @@ const HIITResponseHandler = {
     },
 
     async handle(handlerInput) {
-        workoutOutput = 'hit';
+        workoutOutput = 'HIT';
 
         let str_output = 'How long would you like to do hit for?';
         
@@ -237,9 +222,33 @@ const TimeHandler = {
         
         timeOutput = time;
         
-        //speechOutput = '5 minutes left in your workout';
-        //responseBuilder.speak(speechOutput);
-        const speechOutput =  `Ok! Starting workout for ${time} minutes. Tell me when you're done`;
+        workoutOutput;
+        const workoutTotalTime = jsonIn['workouts'].filter(w => w.name === workoutOutput).pop().total_time
+        const instructions = jsonIn['workouts'].filter(w => w.name === workoutOutput).pop().instructions
+        console.log(instructions);
+        console.log(instructions[0].type);
+        const workoutMultiple = (time/parseInt(workoutTotalTime));
+
+        var strOutput = "OK! Your steps are: ";
+        
+        for (let i = 0; i < instructions.length; i++)  
+        { 
+            if (i <  (instructions.length)){
+                let workoutLength = Math.ceil(parseInt(instructions[i].time)*workoutMultiple);
+                strOutput = strOutput + instructions[i].step + ' for ' + workoutLength + ' minutes, ' ;
+            }
+            
+            else{
+                
+            }
+        } 
+        
+        strOutput = strOutput +  "Tell me when you're done with your workout";
+        
+        console.log(strOutput);
+        console.log(instructions.length);
+        
+        const speechOutput =  strOutput;//`Ok! Starting workout ${instructions[0].step} for ${time} minutes. Tell me when you're done`;
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
 };
@@ -525,8 +534,8 @@ const data = {
     
 };
 
-const SKILL_NAME = 'Boston Guide';
-const FALLBACK_MESSAGE = `The ${SKILL_NAME} skill can\'t help you with that.  It can help you learn about Boston if you say tell me about this place. What can I help you with?`;
+const SKILL_NAME = 'WorkoutCookbook';
+const FALLBACK_MESSAGE = `The ${SKILL_NAME} skill can\'t help you with that. What can I help you with?`;
 const FALLBACK_REPROMPT = 'What can I help you with?';
 
 
@@ -534,23 +543,7 @@ const FALLBACK_REPROMPT = 'What can I help you with?';
 // 3. Helper Functions ==========================================================================
 
 
-const myAPI = {
-    host: 'query.yahooapis.com',
-    port: 443,
-    path: `/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${encodeURIComponent(data.city)}%2C%20${data.state}%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`,
-    method: 'GET',
-};
 
-function getAttractionsBytime(maxtime) {
-    const list = [];
-
-    for (let i = 0; i < data.attractions.length; i += 1) {
-        if (parseInt(data.attractions[i].time, 10) <= maxtime) {
-            list.push(data.attractions[i]);
-        }
-    }
-    return list;
-}
 
 function getWeather(callback) {
     const req = https.request(myAPI, (res) => {
