@@ -41,6 +41,7 @@ class Recipe extends Component {
 					onPress={this.deleteRecipe}
 					children='Delete Recipe'
 					textStyle={[styles.btnText, styles.deleteButtonText]}
+					style={{marginTop: 40}}
 				/>
 			</View>
 		)

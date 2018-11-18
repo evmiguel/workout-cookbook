@@ -67,7 +67,7 @@ class AddRecipe extends Component {
 			let instructionState = Object.keys(copyInstructions).filter(i => i === itemNum.toString()).map(i => copyInstructions[i]).pop()
 			copyInstructions[itemNum] = {
 				...instructionState,
-				[instructionKey]: isNaN(text) ? text : parseInt(text).toString()
+				[instructionKey]: isNaN(text) && instructionKey === 'step' ? text : isNaN(parseInt(text)) ? '' : parseInt(text).toString()
 			}
 			this.setState({
 				instructions: copyInstructions
@@ -78,12 +78,13 @@ class AddRecipe extends Component {
 	render() {
 		return(
 			<View style={styles.container}>
-				<Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', marginBottom: 50}}>What is the name of your recipe?</Text>
+				<Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 10, marginTop: 10}}>What is the name of your workout recipe?</Text>
 				<TextInput
 						style={[styles.input, { width: '90%' }]}
 						placeholder="Recipe Name"
 						onChangeText={(text) => this.handleInput(text, "name")}
 						value={this.state.name }/>
+				<Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginTop: 20, marginBottom: 10}}>What are the instructions in your workout recipe?</Text>
 				<View style={styles.instructionInputContainer}>
 					<TextInput
 						style={[styles.instructionNameInput, styles.input, {marginRight: 5}]}
@@ -167,14 +168,18 @@ const styles = StyleSheet.create({
 	    height: 50,
 	    paddingLeft: 60,
 	    paddingRight: 60,
-	    marginBottom: 20,
+	    marginBottom: 10,
 	    backgroundColor: "#000"
 	},
 	submitText: {
 		color: "#fff",
 		fontSize: 22,
     	textAlign: 'center'
-	}
+	},
+	submitContainer: {
+		flex: 1,
+		flexDirection: 'row'
+	},
 })
 
 
