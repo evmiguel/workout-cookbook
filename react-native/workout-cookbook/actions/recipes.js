@@ -1,10 +1,10 @@
-import { getRecipes, addRecipeBackend, deleteRecipeBackend } from '../utils/api'
+import { addRecipeBackend, deleteRecipeBackend } from '../utils/api'
 
 export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 export const ADD_RECIPE = 'ADD_RECIPE'
 export const DELETE_RECIPE = 'DELETE_RECIPE'
 
-function receiveRecipes(recipes) {
+export function receiveRecipes(recipes) {
 	return {
 		type: RECEIVE_RECIPES,
 		recipes
@@ -22,14 +22,6 @@ function deleteRecipe(name) {
 	return {
 		type: DELETE_RECIPE,
 		name
-	}
-}
-
-export function handleInitialData() {
-	return (dispatch) => {
-		return getRecipes().then(recipes => {
-			dispatch(receiveRecipes(recipes))
-		})
 	}
 }
 

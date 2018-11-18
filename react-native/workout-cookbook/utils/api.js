@@ -1,7 +1,13 @@
-import { _getRecipes, _addRecipe, _deleteRecipe } from './_DATA.js'
+import { _getRecipes, _addRecipe, _deleteRecipe, _getHistory } from './_DATA.js'
 
-export function getRecipes() {
-	return _getRecipes()
+export function getInitialData() {
+	return Promise.all([
+			_getRecipes(),
+			_getHistory()
+		]).then(([recipes, history]) => ({
+		recipes,
+		history,
+	}))
 }
 
 export function addRecipeBackend(recipe){

@@ -3,6 +3,7 @@ This file is for interacting with the backend directly.
 */
 
 const RECIPES_API_URL = 'https://wu2pmkh798.execute-api.us-east-1.amazonaws.com/production/recipes'
+const HISTORY_API_URL = 'https://wu2pmkh798.execute-api.us-east-1.amazonaws.com/production/history'
 
 function getRecipes() {
 	return fetch(RECIPES_API_URL).then(response => response.json())
@@ -40,6 +41,10 @@ function deleteRecipe(name) {
 	})
 }
 
+function getHistory() {
+	return fetch(HISTORY_API_URL).then(response => response.json())
+}
+
 export function _getRecipes() {
 	return getRecipes().then((recipes) => { return recipes['workouts'] })
 }
@@ -50,4 +55,8 @@ export function _addRecipe(recipe) {
 
 export function _deleteRecipe(name) {
 	return deleteRecipe(name)
+}
+
+export function _getHistory() {
+	return getHistory().then((history) => { return history['history'] })
 }

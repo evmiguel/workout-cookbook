@@ -7,7 +7,8 @@ import middleware from './middleware'
 import Recipes from './components/Recipes'
 import Recipe from './components/Recipe'
 import AddRecipe from './components/AddRecipe'
-import { MaterialCommunityIcons} from '@expo/vector-icons'
+import History from './components/History'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
 const RecipeNavigator = createStackNavigator({
@@ -28,6 +29,12 @@ const AddRecipeNavigator = createStackNavigator({
   }
 })
 
+const HistoryNavigator = createStackNavigator({
+  History: {
+    screen: History
+  }
+})
+
 
 const MainNavigator = createBottomTabNavigator({
   DeckView: {
@@ -42,6 +49,13 @@ const MainNavigator = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Add Recipe',
       tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='plus-box' size={30} color={tintColor} />
+    }
+  },
+  HistoryView: {
+    screen: HistoryNavigator,
+    navigationOptions: {
+      tabBarLabel: 'History',
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='history' size={30} color={tintColor} />
     }
   }
 })
