@@ -1,4 +1,4 @@
-import { RECEIVE_RECIPES, ADD_RECIPE } from '../actions/recipes'
+import { RECEIVE_RECIPES, ADD_RECIPE, DELETE_RECIPE } from '../actions/recipes'
 
 export default function recipes(state = {}, action) {
 	switch(action.type) {
@@ -13,6 +13,12 @@ export default function recipes(state = {}, action) {
 				[Object.keys(state).length+1]: {
 					...action.recipe
 				}
+			}
+		case DELETE_RECIPE:
+			const newState = Object.assign({}, state)
+			const recipes = Object.keys(newState).map(i => newState[i]).filter(r => r.name !== action.name)
+			return {
+				...recipes
 			}
 		default:
 			return state

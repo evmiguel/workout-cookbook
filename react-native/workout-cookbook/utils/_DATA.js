@@ -24,10 +24,30 @@ function addRecipe(recipe) {
 	})
 }
 
+function deleteRecipe(name) {
+	return fetch(RECIPES_API_URL, {
+		method: 'DELETE',
+		headers: {
+	    	'Content-Type': 'application/json',
+	  	},
+	  body: JSON.stringify({ name: name})
+	}).then((data) => {
+		return
+	})
+	.catch((err) => {
+		console.log(err)
+		return err
+	})
+}
+
 export function _getRecipes() {
 	return getRecipes().then((recipes) => { return recipes['workouts'] })
 }
 
 export function _addRecipe(recipe) {
 	return addRecipe(recipe).then((recipe) => { return recipe })
+}
+
+export function _deleteRecipe(name) {
+	return deleteRecipe(name)
 }
