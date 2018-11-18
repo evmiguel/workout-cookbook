@@ -266,11 +266,41 @@ const DoneHandler = {
 };
 
 const YesHandler = {
+    /** this is an internal function to call the database */
+     postData(data) {
+        // Get the workouts to say
+        
+        let postData = JSON.stringify(data)
+        
+        let options = {
+            hostname: 'wu2pmkh798.execute-api.us-east-1.amazonaws.com',
+            path: '/production/history',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        return new Promise((resolve, reject) => {
+            let req = https.request(options, (res) => {
+              console.log('statusCode:', res.statusCode);
+              
+              res.on('data', (d) => {
+                  resolve(JSON.parse(d))
+              });
+            }).on('error', (e) => {
+              reject(e);
+            });
+            //end of request
+            
+            req.write(postData)
+            req.end()
+        })
+    },
     canHandle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
         return request.type === 'IntentRequest' && request.intent.name === 'YesIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
         const attributesManager = handlerInput.attributesManager;
         const responseBuilder = handlerInput.responseBuilder;
@@ -280,7 +310,14 @@ const YesHandler = {
         /////////////////
         // SEND DATA HERE
         /////////////////
+        let dataToBackend = {
+            datetime: new Date().toJSON(),
+            length: timeOutput,
+            workout: workoutOutput
+        }
         
+       const postOutput = await this.postData(dataToBackend).then(d => { return d } )
+       console.log(postOutput)
 
         const speechOutput =  "I've sent your workout details to your app." ;
 
