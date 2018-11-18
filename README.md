@@ -15,7 +15,10 @@ yarn start
 This will launch the Expo server on your local machine and gives you the ability to test the mobile app on both iOS and Android simulators as well as on actual phone hardware.
 
 ## Alexa Skill
-The Alexa skill handler is a lambda function. It can be viewed in `index.js`
+The Alexa skill handler is a lambda function using the Node.js runtime. It can be viewed in `index.js`.
+
+### Deployment
+Create an AWS account to create a lambda function that hooks into an Alexa Skills kit.
 
 # Contributing
 TBD
