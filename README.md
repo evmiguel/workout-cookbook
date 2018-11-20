@@ -21,7 +21,7 @@ The Alexa skill handler is a lambda function using the Node.js runtime. It can b
 Create an AWS account to create a lambda function that hooks into an Alexa Skills kit.
 
 # Contributing
-This project is licensed by the GPLv3 license. 
+This project is licensed by the GPLv3 license. Please peruse the currently open issues to start contributing to the project!
 
 Feel free to raise issues for potential bugs and improvements that can be made to the project.
 
