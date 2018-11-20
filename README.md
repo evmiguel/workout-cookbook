@@ -1,5 +1,10 @@
 # Welcome to the Workout Cookbook Project!
-This team Ada Lovelace's submission for the Girl Develop It 2nd Annual Hackathon. The Workout Cookbook is a platform that pairs a mobile app with Alexa. The mobile app uploads and catalogs "workout recipes" that the user defines. Alexa, in turn, assists the user in guiding them through a chosen workout recipe. Users can perform their favorite workout routines from the comfort of their homes and have a fun fitness journey!
+
+## Origins
+This was team Ada Lovelace's submission for the Girl Develop It 2nd Annual Hackathon. The Workout Cookbook is a platform that pairs a mobile app with Alexa. The mobile app uploads and catalogs "workout recipes" that the user defines. Alexa, in turn, assists the user in guiding them through a chosen workout recipe. Users can perform their favorite workout routines from the comfort of their homes and have a fun fitness journey!
+
+## Today
+From a hackathon submission to open source project, Workout Cookbook is a fitness platform aiming to bridge the connection between mobile apps and voice assistants. It is build with open source community building in mind and looking for contributions.
 
 # Installation
 ## Mobile App
